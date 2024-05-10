@@ -1,0 +1,22 @@
+#===============================================================================
+# Move all assets from src_folder to dest_folder
+#===============================================================================
+
+def move_assets(src_folder, dest_folder):
+    assets = ee.data.listAssets({'parent': src_folder})
+    for asset in assets['assets']:
+        reg = asset['id'].split('/')[-1]
+        new_asset = dest_folder + '/' + asset['id'].split('/')[-1]
+        ee.data.copyAsset(asset['id'], new_asset, True)
+    # uncomment if you want to delete source asset
+        # ee.data.deleteAsset(asset['id'])
+
+
+#===============================================================================
+# Delete all assets from src_folder
+#===============================================================================
+
+def delete_assets(src_folder):
+    assets = ee.data.listAssets({'parent': src_folder})
+    for asset in assets['assets']:
+        ee.data.deleteAsset(asset['id'])
